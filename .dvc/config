@@ -1,2 +1,4 @@
+[core]
+    remote = s3-bucket
 ['remote "driveremote"']
     url = s3://censuss3data
