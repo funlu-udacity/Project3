@@ -41,7 +41,6 @@ jobs:
       uses: iterative/setup-dvc@v1
     - name: Pull data from DVC
       run: |
-        dvc remote add -df driveremote s3://censuss3bucket
         dvc pull
     - name: Test with pytest
       run: |
