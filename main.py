@@ -16,16 +16,9 @@ import joblib
 #Getting help from https://knowledge.udacity.com/questions/783987
 if "DYNO" in os.environ and os.path.isdir(".dvc"):
     os.system("dvc config core.no_scm true")
-    os.system("dvc remote add -df s3-bucket s3://censuss3data")
-    print("AWS set up")
-    dvc_output = subprocess.run(
-        ["dvc", "pull"], capture_output=True, text=True)
-    print(dvc_output.stdout)
-    print(dvc_output.stderr)
-    if dvc_output.returncode != 0:
+    if os.system("dvc pull") != 0:
         exit("dvc pull failed")
     os.system("rm -r .dvc .apt/usr/lib/dvc")
-
 
 
 app = FastAPI()
