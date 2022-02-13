@@ -1,0 +1,20 @@
+Getting dvc pull error. To fix add build pack using the command below in the command line from local machine
+
+
+heroku buildpacks:add -a project3-census --index 1 heroku-community/apt
+
+
+And then
+
+
+Git push
+
+
+AWS - edit the data and then
+
+Use dvc add census.csv
+
+Dvc push 
+
+would upload the data to AWS s3 bucket
+

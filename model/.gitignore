@@ -2,3 +2,4 @@
 /encoder.pkl
 /lb.pkl
 /rf_model.pkl
+/slice_performance_rf.csv
