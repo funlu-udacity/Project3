@@ -14,7 +14,7 @@ import os
 from sklearn.model_selection import train_test_split
 import logging
 import pytest
-import pickle
+import pickle as pkl
 
 from starter.ml.data import process_data
 from starter.ml.model import train_model, compute_model_metrics, inference
@@ -51,9 +51,9 @@ def load_data():
 
 @pytest.fixture(scope='session')
 def load_model_and_encoder():
-    model = pickle.load(open(os.path.join(os.getcwd(), "starter", "model", "rf_model.pkl"), 'rb'))
-    encoder = pickle.load(open(os.path.join(os.getcwd(), "starter", "model", "encoder.pkl"), 'rb'))
-    lb = pickle.load(open(os.path.join(os.getcwd(), "starter", "model", "label_binarizer.pkl"), 'rb'))
+    model = pkl.load(open(os.path.join(os.getcwd(), "starter", "model", "rf_model.pkl"), 'rb'))
+    encoder = pkl.load(open(os.path.join(os.getcwd(), "starter", "model", "encoder.pkl"), 'rb'))
+    lb = pkl.load(open(os.path.join(os.getcwd(), "starter", "model", "label_binarizer.pkl"), 'rb'))
     return model, encoder, lb
 
 
