@@ -4,8 +4,8 @@ from sklearn.model_selection import train_test_split
 
 # Add the necessary imports for the starter code.
 import pandas as pd
-from starter.ml.model import train_model, compute_model_metrics, inference, slice_performance
-from starter.ml.data import process_data
+from ml.model import train_model, slice_performance
+from ml.data import process_data
 
 import pickle
 import os

@@ -2,7 +2,6 @@
 import os
 
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
 from Census import Census
 from starter.ml.model import inference
 from starter.ml.data import process_data
@@ -10,24 +9,23 @@ from starter.ml.data import process_data
 import pickle
 import pandas as pd
 import numpy as np
-import joblib
 
 
-#Getting help from https://knowledge.udacity.com/questions/783987
+# Getting help from https://knowledge.udacity.com/questions/783987
 if "DYNO" in os.environ and os.path.isdir(".dvc"):
     os.system("dvc config core.no_scm true")
     os.system("dvc remote add -df driveremote s3://censuss3data")
-	    
     if os.system("dvc pull") != 0:
         exit("dvc pull failed")
     os.system("rm -r .dvc .apt/usr/lib/dvc")
 
 
 app = FastAPI()
-#loading the models
+# loading the models
 model = pickle.load(open(os.path.join(os.getcwd(), "model", "rf_model.pkl"), 'rb'))
 encoder = pickle.load(open(os.path.join(os.getcwd(), "model", "encoder.pkl"), 'rb'))
 lb = pickle.load(open(os.path.join(os.getcwd(), "model", "lb.pkl"), 'rb'))
+
 
 @app.get("/")
 async def main():

@@ -12,14 +12,14 @@ Test 1 : Testing to see if pickle file can predict and returns rows
 import pandas as pd
 import os
 from sklearn.model_selection import train_test_split
+import logging
+import pytest
 
 from starter.ml.data import process_data
-import logging
-
-from starter.ml.model import train_model, compute_model_metrics, inference, slice_performance
+from starter.ml.model import train_model, compute_model_metrics, inference
 
 logging.basicConfig(
-    filename='test_model.log',
+    filename='test_model1.log',
     level=logging.INFO,
     filemode='w',
     format='%(name)s - %(levelname)s - %(message)s')
@@ -40,35 +40,39 @@ cat_features = [
 Loading the same data used in training the model so that the same data can be used in testing
 '''
 
+
+@pytest.fixture(scope='session')
 def load_data():
     path_to_data = os.path.join(os.getcwd(), "data", "census.csv")
     data = pd.read_csv(path_to_data)
-    train, test = train_test_split(data, test_size=0.20)
 
-    return data, train, test
+    return data
 
-def get_train_data():
-    X_train, y_train, encoder, lb = process_data(
-        train, categorical_features=cat_features, label="salary", training=True
-    )
-    return X_train, y_train, encoder, lb
+@pytest.fixture(scope='session')
+def load_model_and_encoder():
+    model = pickle.load(open(os.path.join(os.getcwd(), "starter", "model", "rf_model.pkl"), 'rb'))
+    encoder = pickle.load(open(os.path.join(os.getcwd(), "starter", "model", "encoder.pkl"), 'rb'))
+    lb = pickle.load(open(os.path.join(os.getcwd(), "starter", "model", "label_binarizer.pkl"), 'rb'))
+    return model, encoder, lb
 
-def get_test_data():
-    X_test, y_test, _, _ = process_data(
-        test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb
-    )
-    return X_test, y_test
+
 
 def test_train_model(
-        train_models,
-        X_train,
-        y_train,
+        load_data,
         n_estimators=100):
 
     # test train_models
+    data = load_data
+
+    train, test = train_test_split(data, test_size=0.20)
+
+    X_train, y_train, encoder, lb = process_data(
+        train, categorical_features=cat_features, label="salary", training=True
+    )
+
 
     try:
-        model = train_models(X_train, y_train, n_estimators)
+        model = train_model(X_train, y_train, n_estimators)
         logging.info("train models successfully ran: SUCCESS")
     except FileNotFoundError as err:
         logging.error(
@@ -78,22 +82,25 @@ def test_train_model(
     logging.info(
         "train_models function test ended. Please review the log for details.")
 
-    return model
+    assert model is not None
 
 
-def test_inference(model, X):
+def test_compute_model_metrics(load_data):
+    data = load_data
 
-    test_pred = inference(model, X)
+    train, test = train_test_split(load_data, test_size=0.20)
 
-    try:
-        assert len(test_pred) > 0
-        logging.info("Model returned predictions as expected. No error detected.")
-    except AssertionError as err:
-        logging.error(f"Error is: {0}".format(err))
+    X_train, y_train, encoder, lb = process_data(
+        train, categorical_features=cat_features, label="salary", training=True
+    )
 
-    return test_pred
+    X_test, y_test, _, _ = process_data(
+        test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb
+    )
 
-def test_compute_model_metrics(y_test, preds):
+    model = train_model(X_train, y_train, n_estimators=100)
+
+    preds = inference(model, X_test)
 
     precision, recall, fbeta = compute_model_metrics(y_test, preds)
     pr = precision * 100
@@ -113,27 +120,26 @@ def test_compute_model_metrics(y_test, preds):
         logging.error(f"Recall is too low. Check your model and retrain as needed: {0}".format(re))
 
 
-if __name__ == "__main__":
+def test_inference(load_data):
 
-    logging.info("Function testing is starting...")
+    data = load_data
 
-    data, train, test = load_data()
+    train, test = train_test_split(load_data, test_size=0.20)
 
-    X_train, y_train, encoder, lb = get_train_data()
+    X_train, y_train, encoder, lb = process_data(
+        train, categorical_features=cat_features, label="salary", training=True
+    )
 
-    # Making sure that we can train the model
-    model = test_train_model(
-        train_model,
-        X_train,
-        y_train,
-        100)
+    X_test, y_test, _, _ = process_data(
+        test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb
+    )
 
-    X_test, y_test = get_test_data()
+    model = train_model(X_train, y_train, n_estimators=100)
 
-    # Testing predictions
-    preds = test_inference(model, X_test)
+    preds = inference(model, X_test)
+    try:
+        assert len(preds) > 0
+        logging.info("Model returned predictions as expected. No error detected.")
+    except AssertionError as err:
+        logging.error(f"Error is: {0}".format(err))
 
-    # Testing the metrics to see how the model did
-    test_compute_model_metrics(y_test, preds)
-
-    logging.info("Function testing ended. Please review the log for details.")
