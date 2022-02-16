@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 
 # Add the necessary imports for the starter code.
 import pandas as pd
-from ml.model import train_model, slice_performance
+from ml.model import train_model, slice_performance, inference, compute_model_metrics
 from ml.data import process_data
 
 import pickle
@@ -39,7 +39,18 @@ X_test, y_test, encoder, lb = process_data(
 
 rf_model = train_model(X_train, y_train, 100)
 
-#preds = mdl.inference(modl, X_test)
+preds = inference(rf_model, X_test)
+
+precision, recall, fbeta = compute_model_metrics(y_test, preds)
+
+
+print("Precision: ", precision)
+
+print("Recall: ", recall)
+
+print("fbeta: ", fbeta)
+
+
 
 with open(os.path.join(os.getcwd(), "model", "rf_model.pkl"), 'wb') as handle:
     pickle.dump(rf_model, handle)
