@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9b5dd855-b474-4336-9ebd-0fa6f8a80a13" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Project3/data/census.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/data/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model_card_template.md" beforeDir="false" afterPath="$PROJECT_DIR$/model_card_template.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/starter/train_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/starter/train_model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -56,8 +53,8 @@
         <entry file="file://$PROJECT_DIR$/model_card_template.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="612">
-                <caret line="36" column="218" selection-start-line="36" selection-start-column="218" selection-end-line="36" selection-end-column="218" />
+              <first_editor relative-caret-position="510">
+                <caret line="30" selection-start-line="30" selection-end-line="30" />
               </first_editor>
               <second_editor />
             </state>
@@ -373,8 +370,8 @@
     <entry file="file://$PROJECT_DIR$/model_card_template.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="612">
-            <caret line="36" column="218" selection-start-line="36" selection-start-column="218" selection-end-line="36" selection-end-column="218" />
+          <first_editor relative-caret-position="510">
+            <caret line="30" selection-start-line="30" selection-end-line="30" />
           </first_editor>
           <second_editor />
         </state>
