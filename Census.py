@@ -6,9 +6,8 @@ Author: Ferruh Unlu
 Date: 2/5/2022
 
 """
-
-
 from pydantic import BaseModel
+
 
 class Census(BaseModel):
     age: int

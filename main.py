@@ -33,7 +33,7 @@ async def main():
 
 
 @app.post("/predict")
-def predict_salary(data:Census):
+def predict_salary(data: Census):
 
     input_data = data.dict()
 

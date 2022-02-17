@@ -1,4 +1,4 @@
-'''
+"""
 Testing the functions in model.py file
 
 Author: Ferruh Unlu
@@ -6,7 +6,7 @@ Date: 12/12/2021
 
 Test 1 : Testing to see if pickle file can predict and returns rows
 
-'''
+"""
 
 
 import pandas as pd
@@ -49,13 +49,13 @@ def load_data():
 
     return data
 
+
 @pytest.fixture(scope='session')
 def load_model_and_encoder():
     model = pkl.load(open(os.path.join(os.getcwd(), "starter", "model", "rf_model.pkl"), 'rb'))
     encoder = pkl.load(open(os.path.join(os.getcwd(), "starter", "model", "encoder.pkl"), 'rb'))
     lb = pkl.load(open(os.path.join(os.getcwd(), "starter", "model", "label_binarizer.pkl"), 'rb'))
     return model, encoder, lb
-
 
 
 def test_train_model(
@@ -66,14 +66,12 @@ def test_train_model(
     data = load_data
 
     train, test = train_test_split(data, test_size=0.20)
-
-    X_train, y_train, encoder, lb = process_data(
+    x_train, y_train, encoder, lb = process_data(
         train, categorical_features=cat_features, label="salary", training=True
     )
 
-
     try:
-        model = train_model(X_train, y_train, n_estimators)
+        model = train_model(x_train, y_train, n_estimators)
         logging.info("train models successfully ran: SUCCESS")
     except FileNotFoundError as err:
         logging.error(
@@ -87,21 +85,22 @@ def test_train_model(
 
 
 def test_compute_model_metrics(load_data):
+
     data = load_data
 
     train, test = train_test_split(load_data, test_size=0.20)
 
-    X_train, y_train, encoder, lb = process_data(
+    x_train, y_train, encoder, lb = process_data(
         train, categorical_features=cat_features, label="salary", training=True
     )
 
-    X_test, y_test, _, _ = process_data(
+    x_test, y_test, _, _ = process_data(
         test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb
     )
 
-    model = train_model(X_train, y_train, n_estimators=100)
+    model = train_model(x_train, y_train, n_estimators=100)
 
-    preds = inference(model, X_test)
+    preds = inference(model, x_test)
 
     precision, recall, fbeta = compute_model_metrics(y_test, preds)
     pr = precision * 100
@@ -127,17 +126,17 @@ def test_inference(load_data):
 
     train, test = train_test_split(load_data, test_size=0.20)
 
-    X_train, y_train, encoder, lb = process_data(
+    x_train, y_train, encoder, lb = process_data(
         train, categorical_features=cat_features, label="salary", training=True
     )
 
-    X_test, y_test, _, _ = process_data(
+    x_test, y_test, _, _ = process_data(
         test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb
     )
 
-    model = train_model(X_train, y_train, n_estimators=100)
+    model = train_model(x_train, y_train, n_estimators=100)
 
-    preds = inference(model, X_test)
+    preds = inference(model, x_test)
     try:
         assert len(preds) > 0
         logging.info("Model returned predictions as expected. No error detected.")

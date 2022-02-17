@@ -26,6 +26,7 @@ def train_model(X_train, y_train, n_estimators=100):
 
     return model
 
+
 def compute_model_metrics(y, preds):
     """
     Validates the trained machine learning model using precision, recall, and F1.
@@ -65,6 +66,7 @@ def inference(model, X):
     preds = model.predict(X)
 
     return preds
+
 
 # https://github.com/EuriskoDevelopment/udacity_project_3/blob/main/starter/starter/ml/model.py
 def slice_performance(model, data, encoder, lb, save_path):
@@ -109,6 +111,5 @@ def slice_performance(model, data, encoder, lb, save_path):
     with open(save_path, 'w', newline='') as file:
         wr = csv.writer(file, quoting=csv.QUOTE_ALL)
         wr.writerow(slice_performance)
-
 
     return 0

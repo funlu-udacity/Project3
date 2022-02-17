@@ -11,7 +11,7 @@ import pickle
 import os
 # Add code to load in the data.
 
-data = pd.read_csv(os.path.join(os.getcwd(), "data", "census.csv"))
+data = pd.read_csv(os.path.join(os.getcwd(), "data", "census_clean.csv"))
 
 # Optional enhancement, use K-fold cross validation instead of a train-test split.
 train, test = train_test_split(data, test_size=0.20)
@@ -49,7 +49,6 @@ print("Precision: ", precision)
 print("Recall: ", recall)
 
 print("fbeta: ", fbeta)
-
 
 
 with open(os.path.join(os.getcwd(), "model", "rf_model.pkl"), 'wb') as handle:
