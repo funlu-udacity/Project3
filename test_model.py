@@ -44,7 +44,7 @@ Loading the same data used in training the model so that the same data can be us
 
 @pytest.fixture(scope='session')
 def load_data():
-    path_to_data = os.path.join(os.getcwd(), "data", "census.csv")
+    path_to_data = os.path.join(os.getcwd(), "data", "census_clean.csv")
     data = pd.read_csv(path_to_data)
 
     return data
